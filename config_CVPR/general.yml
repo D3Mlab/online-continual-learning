@@ -1,0 +1,12 @@
+parameters:
+  #experiment
+  num_runs: 15
+  seed: 0
+  # optimizer
+  optimizer: SGD
+  epoch: 1
+  batch: 10
+  test_batch: 128
+  fix_order: True
+  plot_sample: False
+  online: True
