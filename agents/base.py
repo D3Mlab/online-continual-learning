@@ -7,6 +7,7 @@ from utils.kd_manager import KdManager
 from utils.utils import maybe_cuda, AverageMeter
 from torch.utils.data import TensorDataset, DataLoader
 import copy
+from utils.loss import SupConLoss
 
 
 class ContinualLearner(torch.nn.Module, metaclass=abc.ABCMeta):
@@ -84,6 +85,7 @@ class ContinualLearner(torch.nn.Module, metaclass=abc.ABCMeta):
     def criterion(self, logits, labels):
         labels = labels.clone()
         ce = torch.nn.CrossEntropyLoss(reduction='mean')
+        SC = SupConLoss()
         if self.params.trick['labels_trick']:
             unq_lbls = labels.unique().sort()[0]
             for lbl_idx, lbl in enumerate(unq_lbls):
@@ -97,6 +99,8 @@ class ContinualLearner(torch.nn.Module, metaclass=abc.ABCMeta):
             for i, lbl in enumerate(labels):
                 labels[i] = self.lbl_inv_map[lbl.item()]
             return F.nll_loss(ss, labels)
+        elif self.params.agent in ['SC', 'SCP']:
+            return SC(logits, labels)
         else:
             return ce(logits, labels)
 
@@ -106,7 +110,7 @@ class ContinualLearner(torch.nn.Module, metaclass=abc.ABCMeta):
     def evaluate(self, test_loaders):
         self.model.eval()
         acc_array = np.zeros(len(test_loaders))
-        if self.params.trick['nmc_trick'] or self.params.agent == 'ICARL':
+        if self.params.trick['nmc_trick'] or self.params.agent in ['ICARL', 'SC', 'SCP']:
             exemplar_means = {}
             cls_exemplar = {cls: [] for cls in self.old_labels}
             buffer_filled = self.buffer.current_index
@@ -138,17 +142,24 @@ class ContinualLearner(torch.nn.Module, metaclass=abc.ABCMeta):
                 for i, (batch_x, batch_y) in enumerate(test_loader):
                     batch_x = maybe_cuda(batch_x, self.cuda)
                     batch_y = maybe_cuda(batch_y, self.cuda)
-                    if self.params.trick['nmc_trick'] or self.params.agent == 'ICARL':
+                    if self.params.trick['nmc_trick'] or self.params.agent in ['ICARL', 'SC', 'SCP']:
                         feature = self.model.features(batch_x)  # (batch_size, feature_size)
                         for j in range(feature.size(0)):  # Normalize
                             feature.data[j] = feature.data[j] / feature.data[j].norm()
                         feature = feature.unsqueeze(2)  # (batch_size, feature_size, 1)
                         means = torch.stack([exemplar_means[cls] for cls in self.old_labels])  # (n_classes, feature_size)
+
+                        #old ncm
                         means = torch.stack([means] * batch_x.size(0))  # (batch_size, n_classes, feature_size)
                         means = means.transpose(1, 2)
                         feature = feature.expand_as(means)  # (batch_size, feature_size, n_classes)
                         dists = (feature - means).pow(2).sum(1).squeeze()  # (batch_size, n_classes)
                         _, preds = dists.min(1)
+
+                        # TODO, fomalzie and test this
+                        # feature = feature.squeeze(2).T
+                        # _, preds = torch.matmul(means, feature).max(0)
+
                         correct_cnt = (np.array(self.old_labels)[
                                            preds.tolist()] == batch_y.cpu().numpy()).sum().item() / batch_y.size(0)
                     else:

@@ -45,11 +45,11 @@ if __name__ == "__main__":
 
     ########################Agent#########################
     parser.add_argument('--agent', dest='agent', default='ER',
-                        choices=['ER', 'EWC', 'AGEM', 'CNDPM', 'LWF', 'ICARL', 'GDUMB', 'ASER'],
+                        choices=['ER', 'EWC', 'AGEM', 'CNDPM', 'LWF', 'ICARL', 'GDUMB', 'ASER', 'SC', 'SCP'],
                         help='Agent selection  (default: %(default)s)')
     parser.add_argument('--update', dest='update', default='random', choices=['random', 'GSS', 'ASER'],
                         help='Update method  (default: %(default)s)')
-    parser.add_argument('--retrieve', dest='retrieve', default='random', choices=['MIR', 'random', 'ASER'],
+    parser.add_argument('--retrieve', dest='retrieve', default='random', choices=['MIR', 'random', 'ASER', 'match', 'mem_match'],
                         help='Retrieve method  (default: %(default)s)')
 
     ########################Optimizer#########################
@@ -170,6 +170,14 @@ if __name__ == "__main__":
     parser.add_argument('--cumulative_delta', dest='cumulative_delta', default=False, type=boolean_string,
                         help='If True, `min_delta` defines an increase since the last `patience` reset, '
                              'otherwise, it defines an increase after the last event.')
+
+    ####################SupContrast######################
+    parser.add_argument('--temp', type=float, default=0.07,
+                        help='temperature for loss function')
+    parser.add_argument('--buffer_tracker', type=boolean_string, default=False,
+                        help='Keep track of buffer with a dictionary')
+    parser.add_argument('--warmup', type=int, default=4,
+                        help='warmup of buffer before retrieve')
 
     args = parser.parse_args()
     args.cuda = torch.cuda.is_available()
