@@ -14,13 +14,22 @@ import os
 import pickle
 
 
-def multiple_run(params):
+def multiple_run(params, store=False, save_path=None):
     # Set up data stream
     start = time.time()
     print('Setting up data stream')
     data_continuum = continuum(params.data, params.cl_type, params)
     data_end = time.time()
     print('data setup time: {}'.format(data_end - start))
+
+    if store:
+        result_path = load_yaml('config/global.yml', key='path')['result']
+        table_path = result_path + params.data
+        print(table_path)
+        os.makedirs(table_path, exist_ok=True)
+        if not save_path:
+            save_path = params.model_name + '_' + params.data_name + '.pkl'
+
     accuracy_list = []
     for run in range(params.num_runs):
         tmp_acc = []
@@ -44,12 +53,16 @@ def multiple_run(params):
             "-----------run {}-----------avg_end_acc {}-----------train time {}".format(run, np.mean(tmp_acc[-1]),
                                                                            run_end - run_start))
         accuracy_list.append(np.array(tmp_acc))
-    accuracy_list = np.array(accuracy_list)
-    avg_end_acc, avg_end_fgt, avg_acc, avg_bwtp, avg_fwt = compute_performance(accuracy_list)
+
+    accuracy_array = np.array(accuracy_list)
     end = time.time()
+    if store:
+        result = {'time': end - start}
+        result['acc_array'] = accuracy_array
+        save_file = open(table_path + '/' + save_path, "wb")
+        pickle.dump(result, save_file)
+        save_file.close()
     print('----------- Total {} run: {}s -----------'.format(params.num_runs, end - start))
-    print('----------- Avg_End_Acc {} Avg_End_Fgt {} Avg_Acc {} Avg_Bwtp {} Avg_Fwt {}-----------'
-          .format(avg_end_acc, avg_end_fgt, avg_acc, avg_bwtp, avg_fwt))
 
 
 

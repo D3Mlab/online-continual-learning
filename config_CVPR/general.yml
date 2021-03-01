@@ -1,6 +1,6 @@
 parameters:
   #experiment
-  num_runs: 15
+  num_runs: 2
   seed: 0
   # optimizer
   optimizer: SGD
@@ -10,3 +10,6 @@ parameters:
   fix_order: True
   plot_sample: False
   online: True
+  buffer_tracker: False
+  mem_iters: 1
+  error_analysis: False
