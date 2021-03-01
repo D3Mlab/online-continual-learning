@@ -8,9 +8,9 @@ from utils.utils import maybe_cuda, AverageMeter
 from kornia.augmentation import RandomResizedCrop, RandomHorizontalFlip, ColorJitter, RandomGrayscale
 import torch.nn as nn
 
-class SupContrast(ContinualLearner):
+class SupContrastReplay(ContinualLearner):
     def __init__(self, model, opt, params):
-        super(SupContrast, self).__init__(model, opt, params)
+        super(SupContrastReplay, self).__init__(model, opt, params)
         self.buffer = Buffer(model, params)
         self.mem_size = params.mem_size
         self.eps_mem_batch = params.eps_mem_batch

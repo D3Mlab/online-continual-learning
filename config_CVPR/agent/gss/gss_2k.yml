@@ -4,6 +4,7 @@ parameters:
   retrieve: random
   mem_size: 2000
   learning_rate: 0.1
+  weight_decay: 0
   eps_mem_batch: 10
   gss_batch_size: 10
   gss_mem_strength: 10

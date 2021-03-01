@@ -99,7 +99,7 @@ class ContinualLearner(torch.nn.Module, metaclass=abc.ABCMeta):
             for i, lbl in enumerate(labels):
                 labels[i] = self.lbl_inv_map[lbl.item()]
             return F.nll_loss(ss, labels)
-        elif self.params.agent in ['SC', 'SCP']:
+        elif self.params.agent in ['SCR', 'SCP']:
             return SC(logits, labels)
         else:
             return ce(logits, labels)

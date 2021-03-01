@@ -10,7 +10,7 @@ from agents.ewc_pp import EWC_pp
 from agents.cndpm import Cndpm
 from agents.lwf import Lwf
 from agents.icarl import Icarl
-from agents.supcontrast import SupContrast
+from agents.scr import SupContrastReplay
 from agents.supcon_pure import SupContrastPure
 from utils.buffer.random_retrieve import Random_retrieve
 from utils.buffer.reservoir_update import Reservoir_update
@@ -37,7 +37,7 @@ agents = {
     'LWF': Lwf,
     'ICARL': Icarl,
     'GDUMB': Gdumb,
-    'SC': SupContrast,
+    'SCR': SupContrastReplay,
     'SCP': SupContrastPure
 }
 

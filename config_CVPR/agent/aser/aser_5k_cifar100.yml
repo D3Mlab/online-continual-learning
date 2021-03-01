@@ -10,5 +10,3 @@ parameters:
   k: 3
   n_smp_cls: 2.0
   model_name: ASER_5k
-
-`

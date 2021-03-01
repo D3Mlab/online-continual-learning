@@ -45,7 +45,7 @@ transforms_match = {
 
 def setup_architecture(params):
     nclass = n_classes[params.data]
-    if params.agent in ['SC', 'SCP']:
+    if params.agent in ['SCR', 'SCP']:
         if params.data == 'mini_imagenet':
             return SupConResNet(640)
         return SupConResNet()
