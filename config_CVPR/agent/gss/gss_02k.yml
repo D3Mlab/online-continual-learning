@@ -3,6 +3,7 @@ parameters:
   update: GSS
   retrieve: random
   mem_size: 200
+  learning_rate: 0.1
   eps_mem_batch: 10
   gss_batch_size: 10
   gss_mem_strength: 10
