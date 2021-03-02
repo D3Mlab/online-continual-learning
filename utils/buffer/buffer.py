@@ -33,8 +33,8 @@ class Buffer(torch.nn.Module):
         if self.params.buffer_tracker:
             self.buffer_tracker = BufferClassTracker(n_classes[params.data], self.device)
 
-    def update(self, x, y):
-        return self.update_method.update(buffer=self, x=x, y=y)
+    def update(self, x, y,**kwargs):
+        return self.update_method.update(buffer=self, x=x, y=y, **kwargs)
 
 
     def retrieve(self, **kwargs):

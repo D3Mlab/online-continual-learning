@@ -7,7 +7,6 @@ class Reservoir_update(object):
 
     def update(self, buffer, x, y, **kwargs):
         batch_size = x.size(0)
-
         # add whatever still fits in the buffer
         place_left = max(0, buffer.buffer_img.size(0) - buffer.current_index)
         if place_left:

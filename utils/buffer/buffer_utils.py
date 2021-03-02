@@ -28,7 +28,10 @@ def random_retrieve(buffer, num_retrieve, excl_indices=None, return_indices=Fals
 
 def match_retrieve(buffer, cur_y, exclud_idx=None):
     counter = Counter(cur_y.tolist())
-    select = []
+    idx_dict = defaultdict(list)
+    for idx, val in enumerate(cur_y.tolist()):
+        idx_dict[val].append(idx)
+    select = [None] * len(cur_y)
     for y in counter:
         idx = buffer.buffer_tracker.class_index_cache[y]
         if exclud_idx is not None:
@@ -36,7 +39,9 @@ def match_retrieve(buffer, cur_y, exclud_idx=None):
         if not idx or len(idx) < counter[y]:
             print('match retrieve attempt fail')
             return torch.tensor([]), torch.tensor([])
-        select += random.sample(list(idx), counter[y])
+        retrieved = random.sample(list(idx), counter[y])
+        for idx, val in zip(idx_dict[y], retrieved):
+            select[idx] = val
     indices = torch.tensor(select)
     x = buffer.buffer_img[indices]
     y = buffer.buffer_label[indices]

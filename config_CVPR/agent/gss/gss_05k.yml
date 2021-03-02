@@ -8,4 +8,4 @@ parameters:
   eps_mem_batch: 10
   gss_batch_size: 10
   gss_mem_strength: 10
-  model_name: GSS_1k
+  model_name: GSS_05k
