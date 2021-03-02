@@ -1,6 +1,6 @@
 parameters:
   #experiment
-  num_runs: 2
+  num_runs: 10
   seed: 0
   # optimizer
   optimizer: SGD
