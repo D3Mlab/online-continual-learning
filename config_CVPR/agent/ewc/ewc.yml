@@ -3,7 +3,6 @@ parameters:
   fisher_update_after: 50
   alpha: 0.9
   learning_rate: 0.1
-  weight_decay: 0 
-  lambda_: 1000
+  weight_decay: 0
+  lambda_: 0
   model_name: EWC
-
