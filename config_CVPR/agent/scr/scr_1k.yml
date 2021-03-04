@@ -3,7 +3,7 @@ parameters:
   update: random
   retrieve: random
   mem_size: 1000
-  eps_mem_batch: 10
+  eps_mem_batch: 100
   learning_rate: 0.1
   weight_decay: 0
   temp: 0.1

@@ -62,7 +62,10 @@ def multiple_run(params, store=False, save_path=None):
         save_file = open(table_path + '/' + save_path, "wb")
         pickle.dump(result, save_file)
         save_file.close()
+    avg_end_acc, avg_end_fgt, avg_acc, avg_bwtp, avg_fwt = compute_performance(accuracy_array)
     print('----------- Total {} run: {}s -----------'.format(params.num_runs, end - start))
+    print('----------- Avg_End_Acc {} Avg_End_Fgt {} Avg_Acc {} Avg_Bwtp {} Avg_Fwt {}-----------'
+          .format(avg_end_acc, avg_end_fgt, avg_acc, avg_bwtp, avg_fwt))
 
 
 
