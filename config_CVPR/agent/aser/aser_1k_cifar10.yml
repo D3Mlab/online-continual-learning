@@ -4,7 +4,7 @@ parameters:
   retrieve: ASER
   mem_size: 1000
   eps_mem_batch: 10
-  aser_type: asv
+  aser_type: asvm
   learning_rate: 0.1
   weight_decay: 0
   k: 3
