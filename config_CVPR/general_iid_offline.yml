@@ -4,7 +4,7 @@ parameters:
   seed: 0
   # optimizer
   optimizer: SGD
-  epoch: 70
+  epoch: 50
   batch: 128
   test_batch: 128
   fix_order: True

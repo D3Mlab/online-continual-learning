@@ -42,17 +42,32 @@ def multiple_run(params, store=False, save_path=None):
 
         # prepare val data loader
         test_loaders = setup_test_loader(data_continuum.test_data(), params)
-        for i, (x_train, y_train, labels) in enumerate(data_continuum):
-            print("-----------run {} training batch {}-------------".format(run, i))
-            print('size: {}, {}'.format(x_train.shape, y_train.shape))
-            agent.train_learner(x_train, y_train)
+        if params.online:
+            for i, (x_train, y_train, labels) in enumerate(data_continuum):
+                print("-----------run {} training batch {}-------------".format(run, i))
+                print('size: {}, {}'.format(x_train.shape, y_train.shape))
+                agent.train_learner(x_train, y_train)
+                acc_array = agent.evaluate(test_loaders)
+                tmp_acc.append(acc_array)
+            run_end = time.time()
+            print(
+                "-----------run {}-----------avg_end_acc {}-----------train time {}".format(run, np.mean(tmp_acc[-1]),
+                                                                               run_end - run_start))
+            accuracy_list.append(np.array(tmp_acc))
+        else:
+            x_train_offline = []
+            y_train_offline = []
+            for i, (x_train, y_train, labels) in enumerate(data_continuum):
+                x_train_offline.append(x_train)
+                y_train_offline.append(y_train)
+            print('Training Start')
+            x_train_offline = np.concatenate(x_train_offline, axis=0)
+            y_train_offline = np.concatenate(y_train_offline, axis=0)
+            print("----------run {} training-------------".format(run))
+            print('size: {}, {}'.format(x_train_offline.shape, y_train_offline.shape))
+            agent.train_learner(x_train_offline, y_train_offline)
             acc_array = agent.evaluate(test_loaders)
             tmp_acc.append(acc_array)
-        run_end = time.time()
-        print(
-            "-----------run {}-----------avg_end_acc {}-----------train time {}".format(run, np.mean(tmp_acc[-1]),
-                                                                           run_end - run_start))
-        accuracy_list.append(np.array(tmp_acc))
 
     accuracy_array = np.array(accuracy_list)
     end = time.time()
