@@ -7,6 +7,8 @@ from utils.io import load_yaml
 from utils.utils import boolean_string
 from types import SimpleNamespace
 from utils.setup_elements import default_trick
+from copy import deepcopy
+
 
 def main(args):
     genereal_params = load_yaml(args.general)
@@ -15,7 +17,11 @@ def main(args):
     genereal_params['verbose'] = args.verbose
     genereal_params['cuda'] = torch.cuda.is_available()
     genereal_params['sotre'] = args.store
-    genereal_params['trick'] = default_trick
+    default_trick_copy = deepcopy(default_trick)
+    for i in agent_params:
+        if i in default_trick_copy:
+            default_trick_copy[i] = True
+    genereal_params['trick'] = default_trick_copy
     final_params = SimpleNamespace(**genereal_params, **data_params, **agent_params)
     print(final_params)
     # set up seed
