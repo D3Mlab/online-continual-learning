@@ -18,7 +18,7 @@ def main(args):
         torch.backends.cudnn.benchmark = False
     args.trick = {'labels_trick': args.labels_trick, 'separated_softmax': args.separated_softmax,
                   'kd_trick': args.kd_trick, 'kd_trick_star': args.kd_trick_star, 'review_trick': args.review_trick,
-                  'nmc_trick': args.nmc_trick}
+                  'ncm_trick': args.ncm_trick}
     multiple_run(args)
 
 
@@ -160,8 +160,8 @@ if __name__ == "__main__":
                         help='Improved knowledge distillation trick')
     parser.add_argument('--review_trick', dest='review_trick', default=False, type=boolean_string,
                         help='Review trick')
-    parser.add_argument('--nmc_trick', dest='nmc_trick', default=False, type=boolean_string,
-                        help='Use nearest mean classifier')
+    parser.add_argument('--ncm_trick', dest='ncm_trick', default=False, type=boolean_string,
+                        help='Use nearest class mean classifier')
     parser.add_argument('--mem_iters', dest='mem_iters', default=1, type=int,
                         help='mem_iters')
 

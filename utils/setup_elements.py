@@ -5,7 +5,7 @@ import torch.nn as nn
 
 
 default_trick = {'labels_trick': False, 'kd_trick': False, 'separated_softmax': False,
-                 'review_trick': False, 'nmc_trick': False, 'kd_trick_star': False}
+                 'review_trick': False, 'ncm_trick': False, 'kd_trick_star': False}
 
 
 input_size_match = {
