@@ -91,6 +91,9 @@ if __name__ == "__main__":
                         help='Type of non-stationary (default: %(default)s)')
     parser.add_argument('--ns_task', dest='ns_task', nargs='+', default=(1, 1, 2, 2, 2, 2), type=int,
                         help='NI Non Stationary task composition (default: %(default)s)')
+    parser.add_argument('--online', dest='online', default=True,
+                        type=boolean_string,
+                        help='If False, offline training will be performed (default: %(default)s)')
 
     ########################ER#########################
     parser.add_argument('--mem_size', dest='mem_size', default=10000,

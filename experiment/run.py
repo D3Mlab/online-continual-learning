@@ -67,7 +67,7 @@ def multiple_run(params, store=False, save_path=None):
             print('size: {}, {}'.format(x_train_offline.shape, y_train_offline.shape))
             agent.train_learner(x_train_offline, y_train_offline)
             acc_array = agent.evaluate(test_loaders)
-            tmp_acc.append(acc_array)
+            accuracy_list.append(acc_array)
 
     accuracy_array = np.array(accuracy_list)
     end = time.time()
@@ -77,10 +77,14 @@ def multiple_run(params, store=False, save_path=None):
         save_file = open(table_path + '/' + save_path, "wb")
         pickle.dump(result, save_file)
         save_file.close()
-    avg_end_acc, avg_end_fgt, avg_acc, avg_bwtp, avg_fwt = compute_performance(accuracy_array)
-    print('----------- Total {} run: {}s -----------'.format(params.num_runs, end - start))
-    print('----------- Avg_End_Acc {} Avg_End_Fgt {} Avg_Acc {} Avg_Bwtp {} Avg_Fwt {}-----------'
-          .format(avg_end_acc, avg_end_fgt, avg_acc, avg_bwtp, avg_fwt))
+    if params.online:
+        avg_end_acc, avg_end_fgt, avg_acc, avg_bwtp, avg_fwt = compute_performance(accuracy_array)
+        print('----------- Total {} run: {}s -----------'.format(params.num_runs, end - start))
+        print('----------- Avg_End_Acc {} Avg_End_Fgt {} Avg_Acc {} Avg_Bwtp {} Avg_Fwt {}-----------'
+              .format(avg_end_acc, avg_end_fgt, avg_acc, avg_bwtp, avg_fwt))
+    else:
+        print('----------- Total {} run: {}s -----------'.format(params.num_runs, end - start))
+        print("avg_end_acc {}".format(np.mean(accuracy_list)))
 
 
 
