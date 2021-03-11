@@ -8,6 +8,7 @@ from utils.utils import maybe_cuda, AverageMeter
 from torch.utils.data import TensorDataset, DataLoader
 import copy
 from utils.loss import SupConLoss
+import pickle
 
 
 class ContinualLearner(torch.nn.Module, metaclass=abc.ABCMeta):
@@ -37,12 +38,16 @@ class ContinualLearner(torch.nn.Module, metaclass=abc.ABCMeta):
         self.bias_norm_new = []
         self.bias_norm_old = []
         self.lbl_inv_map = {}
+        self.class_task_map = {}
 
     def before_train(self, x_train, y_train):
         new_labels = list(set(y_train.tolist()))
         self.new_labels += new_labels
         for i, lbl in enumerate(new_labels):
             self.lbl_inv_map[lbl] = len(self.old_labels) + i
+
+        for i in new_labels:
+            self.class_task_map[i] = self.task_seen
 
     @abstractmethod
     def train_learner(self, x_train, y_train):
@@ -54,6 +59,7 @@ class ContinualLearner(torch.nn.Module, metaclass=abc.ABCMeta):
         self.new_labels_zombie = copy.deepcopy(self.new_labels)
         self.new_labels.clear()
         self.task_seen += 1
+
         if self.params.trick['review_trick'] and hasattr(self, 'buffer'):
             self.model.train()
             mem_x = self.buffer.buffer_img[:self.buffer.current_index]
@@ -127,9 +133,12 @@ class ContinualLearner(torch.nn.Module, metaclass=abc.ABCMeta):
                     feature = feature.squeeze()
                     feature.data = feature.data / feature.data.norm()  # Normalize
                     features.append(feature)
-                features = torch.stack(features)
-                mu_y = features.mean(0).squeeze()
-                mu_y.data = mu_y.data / mu_y.data.norm()  # Normalize
+                if len(features) == 0:
+                    mu_y = torch.stack(tuple(exemplar_means.values())).mean(0)
+                else:
+                    features = torch.stack(features)
+                    mu_y = features.mean(0).squeeze()
+                    mu_y.data = mu_y.data / mu_y.data.norm()  # Normalize
                 exemplar_means[cls] = mu_y
         with torch.no_grad():
             if self.params.error_analysis:
@@ -140,6 +149,8 @@ class ContinualLearner(torch.nn.Module, metaclass=abc.ABCMeta):
                 on = 0
                 new_class_score = AverageMeter()
                 old_class_score = AverageMeter()
+                correct_lb = []
+                predict_lb = []
             for task, test_loader in enumerate(test_loaders):
                 acc = AverageMeter()
                 for i, (batch_x, batch_y) in enumerate(test_loader):
@@ -170,6 +181,9 @@ class ContinualLearner(torch.nn.Module, metaclass=abc.ABCMeta):
                         _, pred_label = torch.max(logits, 1)
                         correct_cnt = (pred_label == batch_y).sum().item()/batch_y.size(0)
                         if self.params.error_analysis:
+                            correct_lb += [task] * len(batch_y)
+                            for i in pred_label:
+                                predict_lb.append(self.class_task_map[i.item()])
                             if task < self.task_seen-1:
                                 # old test
                                 total = (pred_label != batch_y).sum().item()
@@ -209,4 +223,6 @@ class ContinualLearner(torch.nn.Module, metaclass=abc.ABCMeta):
             print(self.fc_norm_new)
             print(self.bias_norm_old)
             print(self.bias_norm_new)
+            with open('confusion', 'wb') as fp:
+                pickle.dump([correct_lb, predict_lb], fp)
         return acc_array
