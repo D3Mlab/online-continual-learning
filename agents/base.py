@@ -134,11 +134,12 @@ class ContinualLearner(torch.nn.Module, metaclass=abc.ABCMeta):
                     feature.data = feature.data / feature.data.norm()  # Normalize
                     features.append(feature)
                 if len(features) == 0:
-                    mu_y = torch.stack(tuple(exemplar_means.values())).mean(0)
+                    mu_y = maybe_cuda(torch.normal(0, 1, size=tuple(self.model.features(x.unsqueeze(0)).detach().size())), self.cuda)
+                    mu_y = mu_y.squeeze()
                 else:
                     features = torch.stack(features)
                     mu_y = features.mean(0).squeeze()
-                    mu_y.data = mu_y.data / mu_y.data.norm()  # Normalize
+                mu_y.data = mu_y.data / mu_y.data.norm()  # Normalize
                 exemplar_means[cls] = mu_y
         with torch.no_grad():
             if self.params.error_analysis:
