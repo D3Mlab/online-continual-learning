@@ -1,0 +1,108 @@
+Namespace(agent='SCR', alpha=0.9, aser_type='asvm', batch=10, buffer_tracker=False, cl_type='nc', classifier_chill=0.01, clip=10.0, cuda=True, cumulative_delta=False, data='cifar100', epoch=1, eps_mem_batch=20, error_analysis=False, fisher_update_after=50, fix_order=True, gss_batch_size=10, gss_mem_strength=10, k=5, kd_trick=False, kd_trick_star=False, labels_trick=False, lambda_=100, learning_rate=0.1, log_alpha=-300, mem_epoch=70, mem_iters=1, mem_size=2000, min_delta=0.0, minlr=0.0005, n_smp_cls=2.0, ncm_trick=False, ns_factor=(0.0, 0.4, 0.8, 1.2, 1.6, 2.0, 2.4, 2.8, 3.2, 3.6), ns_task=(1, 1, 2, 2, 2, 2), ns_type='noise', num_runs=1, num_runs_val=3, num_tasks=10, num_val=3, online=True, optimizer='SGD', patience=0, plot_sample=False, retrieve='random', review_trick=False, seed=0, separated_softmax=False, stm_capacity=1000, subsample=50, temp=0.07, test_batch=128, update='random', val_size=0.1, verbose=True, warmup=4, weight_decay=0)
+Setting up data stream
+Files already downloaded and verified
+Files already downloaded and verified
+data setup time: 1.1851656436920166
+Task: 0, Labels:[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+Task: 1, Labels:[10, 11, 12, 13, 14, 15, 16, 17, 18, 19]
+Task: 2, Labels:[20, 21, 22, 23, 24, 25, 26, 27, 28, 29]
+Task: 3, Labels:[30, 31, 32, 33, 34, 35, 36, 37, 38, 39]
+Task: 4, Labels:[40, 41, 42, 43, 44, 45, 46, 47, 48, 49]
+Task: 5, Labels:[50, 51, 52, 53, 54, 55, 56, 57, 58, 59]
+Task: 6, Labels:[60, 61, 62, 63, 64, 65, 66, 67, 68, 69]
+Task: 7, Labels:[70, 71, 72, 73, 74, 75, 76, 77, 78, 79]
+Task: 8, Labels:[80, 81, 82, 83, 84, 85, 86, 87, 88, 89]
+Task: 9, Labels:[90, 91, 92, 93, 94, 95, 96, 97, 98, 99]
+buffer has 2000 slots
+-----------run 0 training batch 0-------------
+size: (5000, 32, 32, 3), (5000,)
+==>>> it: 1, avg. loss: 3.668618, 
+==>>> it: 101, avg. loss: 4.024647, 
+/home/zhedamai/PycharmProjects/D3M/online-continual-learning/utils/buffer/reservoir_update.py:35: UserWarning: This overload of nonzero is deprecated:
+	nonzero()
+Consider using one of the following signatures instead:
+	nonzero(*, bool as_tuple) (Triggered internally at  /pytorch/torch/csrc/utils/python_arg_parser.cpp:882.)
+  idx_new_data = valid_indices.nonzero().squeeze(-1)
+==>>> it: 201, avg. loss: 3.996729, 
+==>>> it: 301, avg. loss: 3.980150, 
+==>>> it: 401, avg. loss: 3.961053, 
+[0.445 0.    0.    0.    0.    0.    0.    0.    0.    0.   ]
+-----------run 0 training batch 1-------------
+size: (5000, 32, 32, 3), (5000,)
+==>>> it: 1, avg. loss: 3.792209, 
+==>>> it: 101, avg. loss: 3.798872, 
+==>>> it: 201, avg. loss: 3.772145, 
+==>>> it: 301, avg. loss: 3.739520, 
+==>>> it: 401, avg. loss: 3.723245, 
+[0.419 0.251 0.    0.    0.    0.    0.    0.    0.    0.   ]
+-----------run 0 training batch 2-------------
+size: (5000, 32, 32, 3), (5000,)
+==>>> it: 1, avg. loss: 3.348376, 
+==>>> it: 101, avg. loss: 3.410352, 
+==>>> it: 201, avg. loss: 3.383742, 
+==>>> it: 301, avg. loss: 3.362631, 
+==>>> it: 401, avg. loss: 3.335598, 
+[0.313 0.242 0.346 0.    0.    0.    0.    0.    0.    0.   ]
+-----------run 0 training batch 3-------------
+size: (5000, 32, 32, 3), (5000,)
+==>>> it: 1, avg. loss: 3.125141, 
+==>>> it: 101, avg. loss: 3.030439, 
+==>>> it: 201, avg. loss: 3.032839, 
+==>>> it: 301, avg. loss: 3.002198, 
+==>>> it: 401, avg. loss: 2.994525, 
+[0.332 0.223 0.301 0.286 0.    0.    0.    0.    0.    0.   ]
+-----------run 0 training batch 4-------------
+size: (5000, 32, 32, 3), (5000,)
+==>>> it: 1, avg. loss: 2.532589, 
+==>>> it: 101, avg. loss: 2.699275, 
+==>>> it: 201, avg. loss: 2.699731, 
+==>>> it: 301, avg. loss: 2.710676, 
+==>>> it: 401, avg. loss: 2.716629, 
+[0.271 0.24  0.296 0.25  0.3   0.    0.    0.    0.    0.   ]
+-----------run 0 training batch 5-------------
+size: (5000, 32, 32, 3), (5000,)
+==>>> it: 1, avg. loss: 2.823168, 
+==>>> it: 101, avg. loss: 2.538668, 
+==>>> it: 201, avg. loss: 2.523482, 
+==>>> it: 301, avg. loss: 2.535317, 
+==>>> it: 401, avg. loss: 2.532029, 
+[0.253 0.191 0.282 0.227 0.29  0.268 0.    0.    0.    0.   ]
+-----------run 0 training batch 6-------------
+size: (5000, 32, 32, 3), (5000,)
+==>>> it: 1, avg. loss: 2.500848, 
+==>>> it: 101, avg. loss: 2.313058, 
+==>>> it: 201, avg. loss: 2.318451, 
+==>>> it: 301, avg. loss: 2.335331, 
+==>>> it: 401, avg. loss: 2.339386, 
+[0.241 0.161 0.273 0.21  0.227 0.216 0.338 0.    0.    0.   ]
+-----------run 0 training batch 7-------------
+size: (5000, 32, 32, 3), (5000,)
+==>>> it: 1, avg. loss: 2.227642, 
+==>>> it: 101, avg. loss: 2.174394, 
+==>>> it: 201, avg. loss: 2.227689, 
+==>>> it: 301, avg. loss: 2.204458, 
+==>>> it: 401, avg. loss: 2.190711, 
+[0.249 0.176 0.263 0.175 0.223 0.203 0.275 0.268 0.    0.   ]
+-----------run 0 training batch 8-------------
+size: (5000, 32, 32, 3), (5000,)
+==>>> it: 1, avg. loss: 2.199352, 
+==>>> it: 101, avg. loss: 2.191251, 
+==>>> it: 201, avg. loss: 2.173103, 
+==>>> it: 301, avg. loss: 2.172754, 
+==>>> it: 401, avg. loss: 2.168514, 
+[0.226 0.15  0.251 0.18  0.207 0.245 0.279 0.216 0.24  0.   ]
+-----------run 0 training batch 9-------------
+size: (5000, 32, 32, 3), (5000,)
+==>>> it: 1, avg. loss: 2.283874, 
+==>>> it: 101, avg. loss: 2.011580, 
+==>>> it: 201, avg. loss: 2.004969, 
+==>>> it: 301, avg. loss: 2.018798, 
+==>>> it: 401, avg. loss: 2.023537, 
+[0.218 0.171 0.238 0.159 0.205 0.213 0.25  0.203 0.164 0.255]
+-----------run 0-----------avg_end_acc 0.2076-----------train time 189.59056901931763
+/home/zhedamai/PycharmProjects/online-continual-learning/online-cl/lib/python3.7/site-packages/numpy/core/_methods.py:234: RuntimeWarning: Degrees of freedom <= 0 for slice
+  keepdims=keepdims)
+/home/zhedamai/PycharmProjects/online-continual-learning/online-cl/lib/python3.7/site-packages/numpy/core/_methods.py:226: RuntimeWarning: invalid value encountered in double_scalars
+  ret = ret.dtype.type(ret / rcount)
+----------- Total 1 run: 190.7758116722107s -----------
+----------- Avg_End_Acc (0.2076, nan) Avg_End_Fgt (0.09209999999999999, nan) Avg_Acc (0.2785222222222222, nan) Avg_Bwtp (0.0, nan) Avg_Fwt (0.0, nan)-----------

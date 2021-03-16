@@ -150,13 +150,18 @@ class SupConResNet(nn.Module):
                 nn.ReLU(inplace=True),
                 nn.Linear(dim_in, feat_dim)
             )
+        elif head == 'None':
+            self.head = None
         else:
             raise NotImplementedError(
                 'head not supported: {}'.format(head))
 
     def forward(self, x):
         feat = self.encoder.features(x)
-        feat = F.normalize(self.head(feat), dim=1)
+        if self.head:
+            feat = F.normalize(self.head(feat), dim=1)
+        else:
+            feat = F.normalize(feat, dim=1)
         return feat
 
     def features(self, x):

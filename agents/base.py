@@ -94,7 +94,7 @@ class ContinualLearner(torch.nn.Module, metaclass=abc.ABCMeta):
     def criterion(self, logits, labels):
         labels = labels.clone()
         ce = torch.nn.CrossEntropyLoss(reduction='mean')
-        SC = SupConLoss()
+        SC = SupConLoss(temperature=self.params.temp)
         if self.params.trick['labels_trick']:
             unq_lbls = labels.unique().sort()[0]
             for lbl_idx, lbl in enumerate(unq_lbls):
@@ -169,42 +169,43 @@ class ContinualLearner(torch.nn.Module, metaclass=abc.ABCMeta):
                         means = means.transpose(1, 2)
                         feature = feature.expand_as(means)  # (batch_size, feature_size, n_classes)
                         dists = (feature - means).pow(2).sum(1).squeeze()  # (batch_size, n_classes)
-                        _, preds = dists.min(1)
+                        _, pred_label = dists.min(1)
 
                         # TODO, fomalzie and test this
                         # feature = feature.squeeze(2).T
                         # _, preds = torch.matmul(means, feature).max(0)
 
                         correct_cnt = (np.array(self.old_labels)[
-                                           preds.tolist()] == batch_y.cpu().numpy()).sum().item() / batch_y.size(0)
+                                           pred_label.tolist()] == batch_y.cpu().numpy()).sum().item() / batch_y.size(0)
                     else:
                         logits = self.model.forward(batch_x)
                         _, pred_label = torch.max(logits, 1)
                         correct_cnt = (pred_label == batch_y).sum().item()/batch_y.size(0)
-                        if self.params.error_analysis:
-                            correct_lb += [task] * len(batch_y)
-                            for i in pred_label:
-                                predict_lb.append(self.class_task_map[i.item()])
-                            if task < self.task_seen-1:
-                                # old test
-                                total = (pred_label != batch_y).sum().item()
-                                wrong = pred_label[pred_label != batch_y]
-                                error += total
-                                on_tmp = sum([(wrong == i).sum().item() for i in self.new_labels_zombie])
-                                oo += total - on_tmp
-                                on += on_tmp
-                                old_class_score.update(logits[:, list(set(self.old_labels) - set(self.new_labels_zombie))].mean().item(), batch_y.size(0))
-                            elif task == self.task_seen -1:
-                                # new test
-                                total = (pred_label != batch_y).sum().item()
-                                error += total
-                                wrong = pred_label[pred_label != batch_y]
-                                no_tmp = sum([(wrong == i).sum().item() for i in list(set(self.old_labels) - set(self.new_labels_zombie))])
-                                no += no_tmp
-                                nn += total - no_tmp
-                                new_class_score.update(logits[:, self.new_labels_zombie].mean().item(), batch_y.size(0))
-                            else:
-                                pass
+
+                    if self.params.error_analysis:
+                        correct_lb += [task] * len(batch_y)
+                        for i in pred_label:
+                            predict_lb.append(self.class_task_map[i.item()])
+                        if task < self.task_seen-1:
+                            # old test
+                            total = (pred_label != batch_y).sum().item()
+                            wrong = pred_label[pred_label != batch_y]
+                            error += total
+                            on_tmp = sum([(wrong == i).sum().item() for i in self.new_labels_zombie])
+                            oo += total - on_tmp
+                            on += on_tmp
+                            old_class_score.update(logits[:, list(set(self.old_labels) - set(self.new_labels_zombie))].mean().item(), batch_y.size(0))
+                        elif task == self.task_seen -1:
+                            # new test
+                            total = (pred_label != batch_y).sum().item()
+                            error += total
+                            wrong = pred_label[pred_label != batch_y]
+                            no_tmp = sum([(wrong == i).sum().item() for i in list(set(self.old_labels) - set(self.new_labels_zombie))])
+                            no += no_tmp
+                            nn += total - no_tmp
+                            new_class_score.update(logits[:, self.new_labels_zombie].mean().item(), batch_y.size(0))
+                        else:
+                            pass
                     acc.update(correct_cnt, batch_y.size(0))
                 acc_array[task] = acc.avg()
         print(acc_array)

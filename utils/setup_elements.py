@@ -47,8 +47,8 @@ def setup_architecture(params):
     nclass = n_classes[params.data]
     if params.agent in ['SCR', 'SCP']:
         if params.data == 'mini_imagenet':
-            return SupConResNet(640)
-        return SupConResNet()
+            return SupConResNet(640, head=params.head)
+        return SupConResNet(head=params.head)
     if params.agent == 'CNDPM':
         from models.ndpm.ndpm import Ndpm
         return Ndpm(params)

@@ -19,7 +19,7 @@ def main(args):
     args.trick = {'labels_trick': args.labels_trick, 'separated_softmax': args.separated_softmax,
                   'kd_trick': args.kd_trick, 'kd_trick_star': args.kd_trick_star, 'review_trick': args.review_trick,
                   'ncm_trick': args.ncm_trick}
-    multiple_run(args)
+    multiple_run(args, store=args.store, save_path=args.save_path)
 
 
 if __name__ == "__main__":
@@ -42,6 +42,9 @@ if __name__ == "__main__":
                         help='Perform error analysis (default: %(default)s)')
     parser.add_argument('--verbose', type=boolean_string, default=True,
                         help='print information or not (default: %(default)s)')
+    parser.add_argument('--store', type=boolean_string, default=False,
+                        help='Store result or not (default: %(default)s)')
+    parser.add_argument('--save-path', dest='save_path', default=None)
 
     ########################Agent#########################
     parser.add_argument('--agent', dest='agent', default='ER',
@@ -181,7 +184,8 @@ if __name__ == "__main__":
                         help='Keep track of buffer with a dictionary')
     parser.add_argument('--warmup', type=int, default=4,
                         help='warmup of buffer before retrieve')
-
+    parser.add_argument('--head', type=str, default='mlp',
+                        help='projection head')
     args = parser.parse_args()
     args.cuda = torch.cuda.is_available()
     main(args)

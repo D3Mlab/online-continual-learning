@@ -1,0 +1,104 @@
+Namespace(agent='SCR', alpha=0.9, aser_type='asvm', batch=10, buffer_tracker=False, cl_type='nc', classifier_chill=0.01, clip=10.0, cuda=True, cumulative_delta=False, data='cifar100', epoch=1, eps_mem_batch=100, error_analysis=False, fisher_update_after=50, fix_order=True, gss_batch_size=10, gss_mem_strength=10, head='mlp', k=5, kd_trick=False, kd_trick_star=False, labels_trick=False, lambda_=100, learning_rate=0.1, log_alpha=-300, mem_epoch=70, mem_iters=1, mem_size=2000, min_delta=0.0, minlr=0.0005, n_smp_cls=2.0, ncm_trick=False, ns_factor=(0.0, 0.4, 0.8, 1.2, 1.6, 2.0, 2.4, 2.8, 3.2, 3.6), ns_task=(1, 1, 2, 2, 2, 2), ns_type='noise', num_runs=1, num_runs_val=3, num_tasks=10, num_val=3, online=True, optimizer='SGD', patience=0, plot_sample=False, retrieve='ASER', review_trick=False, save_path='scr_aser.pkl', seed=0, separated_softmax=False, stm_capacity=1000, store=True, subsample=50, temp=0.07, test_batch=128, update='ASER', val_size=0.1, verbose=True, warmup=4, weight_decay=0)
+Setting up data stream
+Files already downloaded and verified
+Files already downloaded and verified
+data setup time: 1.176732063293457
+result/cifar100
+Task: 0, Labels:[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+Task: 1, Labels:[10, 11, 12, 13, 14, 15, 16, 17, 18, 19]
+Task: 2, Labels:[20, 21, 22, 23, 24, 25, 26, 27, 28, 29]
+Task: 3, Labels:[30, 31, 32, 33, 34, 35, 36, 37, 38, 39]
+Task: 4, Labels:[40, 41, 42, 43, 44, 45, 46, 47, 48, 49]
+Task: 5, Labels:[50, 51, 52, 53, 54, 55, 56, 57, 58, 59]
+Task: 6, Labels:[60, 61, 62, 63, 64, 65, 66, 67, 68, 69]
+Task: 7, Labels:[70, 71, 72, 73, 74, 75, 76, 77, 78, 79]
+Task: 8, Labels:[80, 81, 82, 83, 84, 85, 86, 87, 88, 89]
+Task: 9, Labels:[90, 91, 92, 93, 94, 95, 96, 97, 98, 99]
+buffer has 2000 slots
+-----------run 0 training batch 0-------------
+size: (5000, 32, 32, 3), (5000,)
+==>>> it: 1, avg. loss: 3.668618, 
+==>>> it: 101, avg. loss: 5.220239, 
+==>>> it: 201, avg. loss: 5.188390, 
+==>>> it: 301, avg. loss: 4.751821, 
+==>>> it: 401, avg. loss: 4.499973, 
+[0.488 0.    0.    0.    0.    0.    0.    0.    0.    0.   ]
+-----------run 0 training batch 1-------------
+size: (5000, 32, 32, 3), (5000,)
+==>>> it: 1, avg. loss: 3.554408, 
+==>>> it: 101, avg. loss: 4.013872, 
+==>>> it: 201, avg. loss: 3.926529, 
+==>>> it: 301, avg. loss: 3.844688, 
+==>>> it: 401, avg. loss: 3.774704, 
+[0.408 0.431 0.    0.    0.    0.    0.    0.    0.    0.   ]
+-----------run 0 training batch 2-------------
+size: (5000, 32, 32, 3), (5000,)
+==>>> it: 1, avg. loss: 3.321288, 
+==>>> it: 101, avg. loss: 3.607534, 
+==>>> it: 201, avg. loss: 3.516494, 
+==>>> it: 301, avg. loss: 3.417482, 
+==>>> it: 401, avg. loss: 3.337454, 
+[0.336 0.397 0.501 0.    0.    0.    0.    0.    0.    0.   ]
+-----------run 0 training batch 3-------------
+size: (5000, 32, 32, 3), (5000,)
+==>>> it: 1, avg. loss: 3.055365, 
+==>>> it: 101, avg. loss: 3.302503, 
+==>>> it: 201, avg. loss: 3.215524, 
+==>>> it: 301, avg. loss: 3.155066, 
+==>>> it: 401, avg. loss: 3.105366, 
+[0.328 0.32  0.459 0.396 0.    0.    0.    0.    0.    0.   ]
+-----------run 0 training batch 4-------------
+size: (5000, 32, 32, 3), (5000,)
+==>>> it: 1, avg. loss: 2.880605, 
+==>>> it: 101, avg. loss: 3.149511, 
+==>>> it: 201, avg. loss: 3.066349, 
+==>>> it: 301, avg. loss: 3.013111, 
+==>>> it: 401, avg. loss: 2.968114, 
+[0.325 0.296 0.393 0.332 0.433 0.    0.    0.    0.    0.   ]
+-----------run 0 training batch 5-------------
+size: (5000, 32, 32, 3), (5000,)
+==>>> it: 1, avg. loss: 2.570176, 
+==>>> it: 101, avg. loss: 2.615516, 
+==>>> it: 201, avg. loss: 2.563126, 
+==>>> it: 301, avg. loss: 2.533364, 
+==>>> it: 401, avg. loss: 2.497360, 
+[0.292 0.277 0.388 0.297 0.313 0.325 0.    0.    0.    0.   ]
+-----------run 0 training batch 6-------------
+size: (5000, 32, 32, 3), (5000,)
+==>>> it: 1, avg. loss: 2.261988, 
+==>>> it: 101, avg. loss: 2.373254, 
+==>>> it: 201, avg. loss: 2.355537, 
+==>>> it: 301, avg. loss: 2.324404, 
+==>>> it: 401, avg. loss: 2.306353, 
+[0.293 0.296 0.38  0.275 0.295 0.273 0.389 0.    0.    0.   ]
+-----------run 0 training batch 7-------------
+size: (5000, 32, 32, 3), (5000,)
+==>>> it: 1, avg. loss: 2.034511, 
+==>>> it: 101, avg. loss: 2.243787, 
+==>>> it: 201, avg. loss: 2.228711, 
+==>>> it: 301, avg. loss: 2.207216, 
+==>>> it: 401, avg. loss: 2.191772, 
+[0.305 0.29  0.376 0.28  0.329 0.264 0.323 0.322 0.    0.   ]
+-----------run 0 training batch 8-------------
+size: (5000, 32, 32, 3), (5000,)
+==>>> it: 1, avg. loss: 2.182344, 
+==>>> it: 101, avg. loss: 2.184558, 
+==>>> it: 201, avg. loss: 2.160532, 
+==>>> it: 301, avg. loss: 2.139018, 
+==>>> it: 401, avg. loss: 2.123632, 
+[0.278 0.271 0.372 0.277 0.302 0.264 0.316 0.277 0.304 0.   ]
+-----------run 0 training batch 9-------------
+size: (5000, 32, 32, 3), (5000,)
+==>>> it: 1, avg. loss: 1.926468, 
+==>>> it: 101, avg. loss: 2.084891, 
+==>>> it: 201, avg. loss: 2.082660, 
+==>>> it: 301, avg. loss: 2.059420, 
+==>>> it: 401, avg. loss: 2.046576, 
+[0.287 0.262 0.355 0.25  0.269 0.251 0.31  0.263 0.256 0.306]
+-----------run 0-----------avg_end_acc 0.28090000000000004-----------train time 503.3137056827545
+/home/zhedamai/PycharmProjects/online-continual-learning/online-cl/lib/python3.7/site-packages/numpy/core/_methods.py:234: RuntimeWarning: Degrees of freedom <= 0 for slice
+  keepdims=keepdims)
+/home/zhedamai/PycharmProjects/online-continual-learning/online-cl/lib/python3.7/site-packages/numpy/core/_methods.py:226: RuntimeWarning: invalid value encountered in double_scalars
+  ret = ret.dtype.type(ret / rcount)
+----------- Total 1 run: 504.4909932613373s -----------
+----------- Avg_End_Acc (0.28090000000000004, nan) Avg_End_Fgt (0.1086, nan) Avg_Acc (0.3567836904761904, nan) Avg_Bwtp (0.0, nan) Avg_Fwt (0.0, nan)-----------

@@ -1,0 +1,109 @@
+Namespace(agent='SCR', alpha=0.9, aser_type='asvm', batch=10, buffer_tracker=False, cl_type='nc', classifier_chill=0.01, clip=10.0, cuda=True, cumulative_delta=False, data='cifar100', epoch=1, eps_mem_batch=100, error_analysis=False, fisher_update_after=50, fix_order=True, gss_batch_size=10, gss_mem_strength=10, head='mlp', k=5, kd_trick=False, kd_trick_star=False, labels_trick=False, lambda_=100, learning_rate=0.1, log_alpha=-300, mem_epoch=70, mem_iters=1, mem_size=2000, min_delta=0.0, minlr=0.0005, n_smp_cls=2.0, ncm_trick=False, ns_factor=(0.0, 0.4, 0.8, 1.2, 1.6, 2.0, 2.4, 2.8, 3.2, 3.6), ns_task=(1, 1, 2, 2, 2, 2), ns_type='noise', num_runs=1, num_runs_val=3, num_tasks=10, num_val=3, online=True, optimizer='SGD', patience=0, plot_sample=False, retrieve='ASER', review_trick=False, save_path='scr_aser_retrieve.pkl', seed=0, separated_softmax=False, stm_capacity=1000, store=True, subsample=50, temp=0.07, test_batch=128, update='random', val_size=0.1, verbose=True, warmup=4, weight_decay=0)
+Setting up data stream
+Files already downloaded and verified
+Files already downloaded and verified
+data setup time: 1.176450252532959
+result/cifar100
+Task: 0, Labels:[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+Task: 1, Labels:[10, 11, 12, 13, 14, 15, 16, 17, 18, 19]
+Task: 2, Labels:[20, 21, 22, 23, 24, 25, 26, 27, 28, 29]
+Task: 3, Labels:[30, 31, 32, 33, 34, 35, 36, 37, 38, 39]
+Task: 4, Labels:[40, 41, 42, 43, 44, 45, 46, 47, 48, 49]
+Task: 5, Labels:[50, 51, 52, 53, 54, 55, 56, 57, 58, 59]
+Task: 6, Labels:[60, 61, 62, 63, 64, 65, 66, 67, 68, 69]
+Task: 7, Labels:[70, 71, 72, 73, 74, 75, 76, 77, 78, 79]
+Task: 8, Labels:[80, 81, 82, 83, 84, 85, 86, 87, 88, 89]
+Task: 9, Labels:[90, 91, 92, 93, 94, 95, 96, 97, 98, 99]
+buffer has 2000 slots
+-----------run 0 training batch 0-------------
+size: (5000, 32, 32, 3), (5000,)
+==>>> it: 1, avg. loss: 3.668618, 
+==>>> it: 101, avg. loss: 5.220239, 
+/home/zhedamai/PycharmProjects/D3M/online-continual-learning/utils/buffer/reservoir_update.py:35: UserWarning: This overload of nonzero is deprecated:
+	nonzero()
+Consider using one of the following signatures instead:
+	nonzero(*, bool as_tuple) (Triggered internally at  /pytorch/torch/csrc/utils/python_arg_parser.cpp:882.)
+  idx_new_data = valid_indices.nonzero().squeeze(-1)
+==>>> it: 201, avg. loss: 5.188346, 
+==>>> it: 301, avg. loss: 4.761160, 
+==>>> it: 401, avg. loss: 4.524282, 
+[0.549 0.    0.    0.    0.    0.    0.    0.    0.    0.   ]
+-----------run 0 training batch 1-------------
+size: (5000, 32, 32, 3), (5000,)
+==>>> it: 1, avg. loss: 3.760853, 
+==>>> it: 101, avg. loss: 4.215593, 
+==>>> it: 201, avg. loss: 4.194152, 
+==>>> it: 301, avg. loss: 4.161144, 
+==>>> it: 401, avg. loss: 4.127561, 
+[0.44  0.339 0.    0.    0.    0.    0.    0.    0.    0.   ]
+-----------run 0 training batch 2-------------
+size: (5000, 32, 32, 3), (5000,)
+==>>> it: 1, avg. loss: 3.710080, 
+==>>> it: 101, avg. loss: 4.118403, 
+==>>> it: 201, avg. loss: 4.093760, 
+==>>> it: 301, avg. loss: 4.064222, 
+==>>> it: 401, avg. loss: 4.032202, 
+[0.418 0.383 0.534 0.    0.    0.    0.    0.    0.    0.   ]
+-----------run 0 training batch 3-------------
+size: (5000, 32, 32, 3), (5000,)
+==>>> it: 1, avg. loss: 3.775985, 
+==>>> it: 101, avg. loss: 4.020398, 
+==>>> it: 201, avg. loss: 3.994576, 
+==>>> it: 301, avg. loss: 3.952828, 
+==>>> it: 401, avg. loss: 3.928297, 
+[0.401 0.351 0.449 0.373 0.    0.    0.    0.    0.    0.   ]
+-----------run 0 training batch 4-------------
+size: (5000, 32, 32, 3), (5000,)
+==>>> it: 1, avg. loss: 3.792545, 
+==>>> it: 101, avg. loss: 3.882350, 
+==>>> it: 201, avg. loss: 3.846830, 
+==>>> it: 301, avg. loss: 3.812707, 
+==>>> it: 401, avg. loss: 3.780311, 
+[0.388 0.365 0.471 0.361 0.479 0.    0.    0.    0.    0.   ]
+-----------run 0 training batch 5-------------
+size: (5000, 32, 32, 3), (5000,)
+==>>> it: 1, avg. loss: 3.354297, 
+==>>> it: 101, avg. loss: 3.453802, 
+==>>> it: 201, avg. loss: 3.407972, 
+==>>> it: 301, avg. loss: 3.371839, 
+==>>> it: 401, avg. loss: 3.344622, 
+[0.395 0.346 0.429 0.334 0.428 0.382 0.    0.    0.    0.   ]
+-----------run 0 training batch 6-------------
+size: (5000, 32, 32, 3), (5000,)
+==>>> it: 1, avg. loss: 3.054420, 
+==>>> it: 101, avg. loss: 3.038897, 
+==>>> it: 201, avg. loss: 2.998584, 
+==>>> it: 301, avg. loss: 2.966636, 
+==>>> it: 401, avg. loss: 2.939357, 
+[0.353 0.303 0.423 0.32  0.386 0.365 0.437 0.    0.    0.   ]
+-----------run 0 training batch 7-------------
+size: (5000, 32, 32, 3), (5000,)
+==>>> it: 1, avg. loss: 2.778999, 
+==>>> it: 101, avg. loss: 2.763025, 
+==>>> it: 201, avg. loss: 2.747124, 
+==>>> it: 301, avg. loss: 2.727870, 
+==>>> it: 401, avg. loss: 2.705592, 
+[0.321 0.288 0.382 0.282 0.38  0.35  0.425 0.319 0.    0.   ]
+-----------run 0 training batch 8-------------
+size: (5000, 32, 32, 3), (5000,)
+==>>> it: 1, avg. loss: 2.431720, 
+==>>> it: 101, avg. loss: 2.543410, 
+==>>> it: 201, avg. loss: 2.533551, 
+==>>> it: 301, avg. loss: 2.519687, 
+==>>> it: 401, avg. loss: 2.499033, 
+[0.311 0.277 0.379 0.287 0.337 0.351 0.378 0.274 0.324 0.   ]
+-----------run 0 training batch 9-------------
+size: (5000, 32, 32, 3), (5000,)
+==>>> it: 1, avg. loss: 2.342501, 
+==>>> it: 101, avg. loss: 2.379468, 
+==>>> it: 201, avg. loss: 2.367201, 
+==>>> it: 301, avg. loss: 2.346567, 
+==>>> it: 401, avg. loss: 2.328211, 
+[0.289 0.256 0.365 0.258 0.299 0.309 0.384 0.24  0.294 0.309]
+-----------run 0-----------avg_end_acc 0.3003-----------train time 490.2474431991577
+/home/zhedamai/PycharmProjects/online-continual-learning/online-cl/lib/python3.7/site-packages/numpy/core/_methods.py:234: RuntimeWarning: Degrees of freedom <= 0 for slice
+  keepdims=keepdims)
+/home/zhedamai/PycharmProjects/online-continual-learning/online-cl/lib/python3.7/site-packages/numpy/core/_methods.py:226: RuntimeWarning: invalid value encountered in double_scalars
+  ret = ret.dtype.type(ret / rcount)
+----------- Total 1 run: 491.4244930744171s -----------
+----------- Avg_End_Acc (0.3003, nan) Avg_End_Fgt (0.1086, nan) Avg_Acc (0.39129353174603176, nan) Avg_Bwtp (0.0, nan) Avg_Fwt (0.0, nan)-----------
